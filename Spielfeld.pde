@@ -34,15 +34,26 @@ class Spielfeld {
       }
     }
     // init random pattern
-    do {
-      newPattern();
-    } while(checkGameWon());
+    newPattern();
+  }
+  
+  private boolean checkValidPattern() {
+    int[] counter_of_each_value = {0,0,0,0,0};
+    for(int i = 0; i < 5; i++) {
+      counter_of_each_value[get_goal_pattern(i)-1] += 1;
+    }
+    for(int i = 0; i < counter_of_each_value.length; i++) {
+      if(counter_of_each_value[i] > 2) return false;
+    }
+    return true;
   }
   
   public void newPattern() {
-    for(int i = 0; i < goal_pattern.length; i++) {
-      goal_pattern[i] = (int) random(1,6); //check if creates proper numbers
-    }
+    do {
+      for(int i = 0; i < goal_pattern.length; i++) {
+        goal_pattern[i] = (int) random(1,6); //check if creates proper numbers
+      }
+    } while(checkGameWon() || !checkValidPattern());
   }
       
   public int[] getCellFromCoordinate() {
